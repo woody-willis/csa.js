@@ -1,0 +1,31 @@
+{
+    "name": "csa.js",
+    "version": "1.0.0",
+    "description": "Implementations of the Connection Scan Algorithm in TypeScript",
+    "license": "ISC",
+    "author": "Woody Willis",
+    "type": "module",
+    "scripts": {
+        "clean": "del-cli ./lib",
+        "build": "npm run clean && tsc -p ./tsconfig.json",
+        "prepack": "npm run build",
+        "test": "node --experimental-strip-types --test",
+        "prepare": "husky install"
+    },
+    "devDependencies": {
+        "@types/node": "^22.14.1",
+        "del-cli": "^6.0.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.5.1",
+        "prettier": "^3.5.3",
+        "typescript": "^5.8.3"
+    },
+    "files": [
+        "lib/**/*"
+    ],
+    "types": "./lib/index.d.ts",
+    "main": "./lib/index.js",
+    "lint-staged": {
+        "*.{js,ts,json}": "prettier --write"
+    }
+}
