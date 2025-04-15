@@ -10,7 +10,7 @@
         "build": "npm run clean && tsc -p ./tsconfig.json",
         "prepack": "npm run build",
         "test": "node --experimental-strip-types --test",
-        "prepare": "husky install"
+        "prepare": "husky"
     },
     "devDependencies": {
         "@types/node": "^22.14.1",
