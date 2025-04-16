@@ -4,6 +4,21 @@
     "description": "Implementations of the Connection Scan Algorithm in TypeScript",
     "license": "ISC",
     "author": "Woody Willis",
+    "keywords": [
+        "route planning",
+        "public transport",
+        "public transit",
+        "journey planning",
+        "journey planner",
+        "connection scan"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/woody-willis/csa.js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/woody-willis/csa.js/issues"
+    },
     "type": "module",
     "scripts": {
         "clean": "del-cli ./lib",
