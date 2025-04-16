@@ -15,48 +15,12 @@ import { CSA, Priority, Connection, Stop } from 'csa.js';
 
 (async () => {
     const connections: Connection[] = [
-        {
-            departureStop: 'A',
-            departureTime: new Date(0 * 60 * 1000),
-            arrivalStop: 'B',
-            arrivalTime: new Date(10 * 60 * 1000),
-            service: '1',
-        },
-        {
-            departureStop: 'B',
-            departureTime: new Date(20 * 60 * 1000),
-            arrivalStop: 'C',
-            arrivalTime: new Date(30 * 60 * 1000),
-            service: '1',
-        },
-        {
-            departureStop: 'C',
-            departureTime: new Date(40 * 60 * 1000),
-            arrivalStop: 'D',
-            arrivalTime: new Date(50 * 60 * 1000),
-            service: '1',
-        },
-        {
-            departureStop: 'A',
-            departureTime: new Date(0 * 60 * 1000),
-            arrivalStop: 'C',
-            arrivalTime: new Date(20 * 60 * 1000),
-            service: '2',
-        },
-        {
-            departureStop: 'C',
-            departureTime: new Date(30 * 60 * 1000),
-            arrivalStop: 'D',
-            arrivalTime: new Date(40 * 60 * 1000),
-            service: '2',
-        },
-        {
-            departureStop: 'A',
-            departureTime: new Date(0 * 60 * 1000),
-            arrivalStop: 'D',
-            arrivalTime: new Date(50 * 60 * 1000),
-            service: '3',
-        },
+        { departureStop: 'A', departureTime: new Date(0 * 60 * 1000),  arrivalStop: 'B', arrivalTime: new Date(10 * 60 * 1000), service: '1', },
+        { departureStop: 'B', departureTime: new Date(20 * 60 * 1000), arrivalStop: 'C', arrivalTime: new Date(30 * 60 * 1000), service: '1', },
+        { departureStop: 'C', departureTime: new Date(40 * 60 * 1000), arrivalStop: 'D', arrivalTime: new Date(50 * 60 * 1000), service: '1', },
+        { departureStop: 'A', departureTime: new Date(0 * 60 * 1000),  arrivalStop: 'C', arrivalTime: new Date(20 * 60 * 1000), service: '2', },
+        { departureStop: 'C', departureTime: new Date(30 * 60 * 1000), arrivalStop: 'D', arrivalTime: new Date(40 * 60 * 1000), service: '2', },
+        { departureStop: 'A', departureTime: new Date(0 * 60 * 1000),  arrivalStop: 'D', arrivalTime: new Date(50 * 60 * 1000), service: '3', },
     ];
 
     const csa = new CSA(connections, Priority.EarliestArrival);

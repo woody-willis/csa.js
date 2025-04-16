@@ -30,7 +30,7 @@
     "types": "./lib/index.d.ts",
     "main": "./lib/index.js",
     "lint-staged": {
-        "*.{js,ts,json,md}": "prettier --write"
+        "*.{js,ts,json}": "prettier --write"
     },
     "dependencies": {
         "adm-zip": "^0.5.16"
