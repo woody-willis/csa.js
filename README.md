@@ -2,6 +2,12 @@
 
 My implementation of the Connection Scan Algorithm (minus footpaths) to solve different problems. I use this library for trains, however this will work for any public transport timetable.
 
+### Features
+
+- Earliest arrival
+- Least amount of transfers
+- **Coming soon:** Least average time spent waiting for transfers
+
 ## Installation
 
 ```bash
