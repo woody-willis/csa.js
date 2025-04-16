@@ -29,7 +29,10 @@ import { CSA, Priority, Connection, Stop } from 'csa.js';
         { departureStop: 'A', departureTime: new Date(0 * 60 * 1000),  arrivalStop: 'D', arrivalTime: new Date(50 * 60 * 1000), service: '3', },
     ];
 
-    const csa = new CSA(connections, Priority.EarliestArrival);
+    const csa = new CSA({
+      connections: connections,
+      priority: Priority.EarliestArrival
+    });
 
     const sourceStop: Stop = { id: 'A', name: 'Station A' };
     const targetStop: Stop = { id: 'D', name: 'Station D' };
