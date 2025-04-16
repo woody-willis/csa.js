@@ -37,7 +37,8 @@
         "lint-staged": "^15.5.1",
         "prettier": "^3.5.3",
         "ts-jest": "^29.3.2",
-        "typescript": "^5.8.3"
+        "typescript": "^5.8.3",
+        "adm-zip": "^0.5.16"
     },
     "files": [
         "lib/**/*"
@@ -46,8 +47,5 @@
     "main": "./lib/index.js",
     "lint-staged": {
         "*.{js,ts,json}": "prettier --write"
-    },
-    "dependencies": {
-        "adm-zip": "^0.5.16"
     }
 }
