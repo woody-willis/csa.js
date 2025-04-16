@@ -1,8 +1,8 @@
 import { Connection, Stop, Service } from '../types.js';
 
 export class CSAEarliestArrival {
-    private S: { [key: string]: Date | number } = {};
-    private J: {
+    private tentativeArrivalTime: { [key: string]: Date | number } = {};
+    private stopConnections: {
         [key: string]: [
             Service | string | null,
             Connection | null,
@@ -32,11 +32,11 @@ export class CSAEarliestArrival {
      */
     initialize(source: Stop, sourceTime: Date): void {
         for (const stop of this.stops) {
-            this.S[stop.id] = Infinity;
-            this.J[stop.id] = [null, null, null];
+            this.tentativeArrivalTime[stop.id] = Infinity;
+            this.stopConnections[stop.id] = [null, null, null];
         }
 
-        this.S[source.id] = sourceTime;
+        this.tentativeArrivalTime[source.id] = sourceTime;
     }
 
     /**
@@ -107,7 +107,8 @@ export class CSAEarliestArrival {
             if (departureTime.getTime() > earliestArrival) break;
 
             // Skip connections that cannot improve the tentative arrival time
-            if (this.S[departureStopId] > departureTime) continue;
+            if (this.tentativeArrivalTime[departureStopId] > departureTime)
+                continue;
 
             // Skip connections that have already been finalized
             if (finalized.has(arrivalStop)) continue;
@@ -121,7 +122,8 @@ export class CSAEarliestArrival {
             }
 
             // Check transfer time from the connection that got us to the departure stop
-            const previousConnectionAtDeparture = this.J[departureStopId][1];
+            const previousConnectionAtDeparture =
+                this.stopConnections[departureStopId][1];
             if (
                 previousConnectionAtDeparture &&
                 previousConnectionAtDeparture.service !== connection.service
@@ -135,12 +137,12 @@ export class CSAEarliestArrival {
                 }
             }
 
-            if (arrivalTime < this.S[arrivalStopId]) {
-                this.S[arrivalStopId] = arrivalTime;
-                this.J[arrivalStopId] = [
+            if (arrivalTime < this.tentativeArrivalTime[arrivalStopId]) {
+                this.tentativeArrivalTime[arrivalStopId] = arrivalTime;
+                this.stopConnections[arrivalStopId] = [
                     service,
                     connection,
-                    this.J[departureStopId][1] || null,
+                    this.stopConnections[departureStopId][1] || null,
                 ];
 
                 if (arrivalStopId === targetStop.id) {
@@ -169,11 +171,11 @@ export class CSAEarliestArrival {
 
                 if (
                     nextConnection.arrivalTime <
-                    this.S[nextConnectionArrivalStopId]
+                    this.tentativeArrivalTime[nextConnectionArrivalStopId]
                 ) {
-                    this.S[nextConnectionArrivalStopId] =
+                    this.tentativeArrivalTime[nextConnectionArrivalStopId] =
                         nextConnection.arrivalTime;
-                    this.J[nextConnectionArrivalStopId] = [
+                    this.stopConnections[nextConnectionArrivalStopId] = [
                         service,
                         nextConnection,
                         null,
@@ -199,11 +201,14 @@ export class CSAEarliestArrival {
 
         const visited = new Set();
 
-        while (this.J[stop] && this.J[stop][1] !== null) {
+        while (
+            this.stopConnections[stop] &&
+            this.stopConnections[stop][1] !== null
+        ) {
             if (visited.has(stop)) break;
             visited.add(stop);
 
-            const [, connection] = this.J[stop];
+            const [, connection] = this.stopConnections[stop];
             if (!connection) break;
 
             journey.unshift(connection);
@@ -220,7 +225,7 @@ export class CSAEarliestArrival {
      * Clean up the data structures.
      */
     cleanUp() {
-        this.S = {};
-        this.J = {};
+        this.tentativeArrivalTime = {};
+        this.stopConnections = {};
     }
 }
