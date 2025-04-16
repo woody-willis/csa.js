@@ -1,7 +1,7 @@
 import { Connection, Stop, Service } from '../types.js';
 
 export class CSAEarliestArrival {
-    private tentativeArrivalTime: { [key: string]: Date | number } = {};
+    private tentativeArrivalTime: { [key: string]: number } = {};
     private stopConnections: {
         [key: string]: [
             Service | string | null,
@@ -36,7 +36,7 @@ export class CSAEarliestArrival {
             this.stopConnections[stop.id] = [null, null, null];
         }
 
-        this.tentativeArrivalTime[source.id] = sourceTime;
+        this.tentativeArrivalTime[source.id] = sourceTime.getTime();
     }
 
     /**
@@ -107,7 +107,10 @@ export class CSAEarliestArrival {
             if (departureTime.getTime() > earliestArrival) break;
 
             // Skip connections that cannot improve the tentative arrival time
-            if (this.tentativeArrivalTime[departureStopId] > departureTime)
+            if (
+                this.tentativeArrivalTime[departureStopId] >
+                departureTime.getTime()
+            )
                 continue;
 
             // Skip connections that have already been finalized
@@ -126,7 +129,12 @@ export class CSAEarliestArrival {
                 this.stopConnections[departureStopId][1];
             if (
                 previousConnectionAtDeparture &&
-                previousConnectionAtDeparture.service !== connection.service
+                (typeof previousConnectionAtDeparture.service === 'string'
+                    ? previousConnectionAtDeparture.service
+                    : previousConnectionAtDeparture.service.id) !==
+                    (typeof connection.service === 'string'
+                        ? connection.service
+                        : connection.service.id)
             ) {
                 const transferEndTime = new Date(
                     previousConnectionAtDeparture.arrivalTime.getTime() +
@@ -137,8 +145,11 @@ export class CSAEarliestArrival {
                 }
             }
 
-            if (arrivalTime < this.tentativeArrivalTime[arrivalStopId]) {
-                this.tentativeArrivalTime[arrivalStopId] = arrivalTime;
+            if (
+                arrivalTime.getTime() < this.tentativeArrivalTime[arrivalStopId]
+            ) {
+                this.tentativeArrivalTime[arrivalStopId] =
+                    arrivalTime.getTime();
                 this.stopConnections[arrivalStopId] = [
                     service,
                     connection,
@@ -156,7 +167,10 @@ export class CSAEarliestArrival {
             for (const nextConnection of this.departureMap.get(arrivalStopId) ||
                 []) {
                 if (
-                    service !== nextConnection.service &&
+                    (typeof service === 'string' ? service : service.id) !==
+                        (typeof nextConnection.service === 'string'
+                            ? nextConnection.service
+                            : nextConnection.service.id) &&
                     new Date(
                         arrivalTime.getTime() + this.minimumTransferTime
                     ).getTime() > nextConnection.departureTime.getTime()
@@ -170,11 +184,11 @@ export class CSAEarliestArrival {
                         : nextConnection.arrivalStop.id;
 
                 if (
-                    nextConnection.arrivalTime <
+                    nextConnection.arrivalTime.getTime() <
                     this.tentativeArrivalTime[nextConnectionArrivalStopId]
                 ) {
                     this.tentativeArrivalTime[nextConnectionArrivalStopId] =
-                        nextConnection.arrivalTime;
+                        nextConnection.arrivalTime.getTime();
                     this.stopConnections[nextConnectionArrivalStopId] = [
                         service,
                         nextConnection,
