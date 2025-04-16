@@ -32,3 +32,7 @@ import { CSA, Priority, Connection, Stop } from 'csa.js';
     console.log(journey);
 })();
 ```
+
+## Contributing
+
+Spotted a bug or want to add a new feature? Feel free to open a PR and I will have a look at it!
