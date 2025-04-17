@@ -6,7 +6,7 @@ My implementation of the Connection Scan Algorithm (minus footpaths) to solve di
 
 - Earliest arrival
 - Least amount of transfers
-- **Coming soon:** Least average time spent waiting for transfers
+- Least average time spent waiting for transfers
 
 ## Installation
 

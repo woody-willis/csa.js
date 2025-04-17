@@ -1,8 +1,9 @@
 import { Connection, Priority, Stop } from './types.js';
 import { CSAEarliestArrival } from './flavors/earliestArrival.js';
 import { CSALeastTransfers } from './flavors/leastTransfers.js';
+import { CSALeastAverageTransferTime } from './flavors/leastAverageTransferTime.js';
 
-export { CSAEarliestArrival, CSALeastTransfers };
+export { CSAEarliestArrival, CSALeastTransfers, CSALeastAverageTransferTime };
 
 interface CSAParams {
     /**
@@ -32,7 +33,11 @@ interface CSAParams {
 }
 
 export class CSA {
-    public instance: CSAEarliestArrival | CSALeastTransfers | null;
+    public instance:
+        | CSAEarliestArrival
+        | CSALeastTransfers
+        | CSALeastAverageTransferTime
+        | null;
 
     public connections: Connection[];
     public priority: Priority = Priority.EarliestArrival;
@@ -102,8 +107,10 @@ export class CSA {
                 );
                 break;
             case Priority.LeastAverageTransferTime:
-                throw new Error(
-                    'LeastAverageTransferTime is not implemented yet'
+                this.instance = new CSALeastAverageTransferTime(
+                    this.connections,
+                    this.stops as Stop[],
+                    this.minimumTransferTime
                 );
                 break;
             default:

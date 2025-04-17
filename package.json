@@ -1,6 +1,6 @@
 {
     "name": "csa.js",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Implementations of the Connection Scan Algorithm in TypeScript",
     "license": "ISC",
     "author": "Woody Willis",
